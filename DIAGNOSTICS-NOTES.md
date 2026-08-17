@@ -29,6 +29,17 @@ Best next checks:
 Current conclusion:
 `NO CLOCK` strongly suggests a missing target-system clock path, not a generic "cannot read CPU" condition.
 
+Bench interpretation update:
+- New evidence strongly supports that simply plugging a `6809` into the personality-panel face area is not enough to perform a live measurement.
+- The `A09` guide distinguishes between:
+  - the front-panel `PROBE TEST` socket, which accepts the microprocessor probe for synthetic test-pattern checks
+  - the actual `A13` microprocessor probe hookup to a live `6809` target system
+- This makes the earlier `NO CLOCK` result much more likely to be a setup misunderstanding than a defect in the `1611A` or `A09`.
+
+Practical implication:
+- A complete, cleaned, usable `A13` microprocessor probe setup is likely required before meaningful `6809` diagnosis can begin.
+- Therefore, the spare `1611A/A09` system with probe hardware may be the best next path for resolving the original `NO CLOCK` question.
+
 ## 2026-08-17 - Agent Repair Playbook Assessment
 
 Observation:
