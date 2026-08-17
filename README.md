@@ -9,3 +9,9 @@ Status achieved.
 Unit needs attention to the slide-out information sheet, as the tab is broken off. It should look like this:
 
 ![image](/images/hp_1611a_opt09.jpg)
+
+### The reals
+
+Given we have a clock failure scenario, I have (finally) the one.
+
+![1611a-a09](/images/1611A-6809.jpg)
