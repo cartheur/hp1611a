@@ -28,3 +28,25 @@ Best next checks:
 
 Current conclusion:
 `NO CLOCK` strongly suggests a missing target-system clock path, not a generic "cannot read CPU" condition.
+
+## 2026-08-17 - Agent Repair Playbook Assessment
+
+Observation:
+An `agent-repair-playbook.md` file was added and reviewed for diagnostic value.
+
+Assessment:
+- The playbook does improve diagnostic quality by forcing an early split between `instrument fault` and `measurement-condition fault`.
+- Its strongest contribution is process discipline: reversible checks first, self-test before adjustment, and explicit attention to grounding, threshold, and probe-routing effects.
+- That reasoning style is directly useful for future `1611A` repair sessions because it reduces premature board-level conclusions.
+
+Important limitation:
+- The playbook is currently for the `HP 1615A`, not the `HP 1611A`.
+- Its manual references, self-test sequences, board names, and symptom routing cannot be treated as authoritative for the current `1611A` + `A09` case.
+- It should therefore be used as a `diagnostic method template`, not as a direct technical source for `1611A` troubleshooting.
+
+Effect on the current `NO CLOCK` diagnosis:
+- It strengthens confidence that the first proving step should be a measurement-condition check.
+- It does not change the present conclusion that the most likely problem is missing or invalid live `6809 E-clock` at the A09 probe.
+
+Recommended next improvement:
+- Create a `1611A`-specific repair playbook using the fused mainframe reference and the A09 operator's guide, preserving the same triage structure but replacing all `1615A`-specific citations and procedures.
