@@ -66,3 +66,38 @@ Recommended next improvement:
 
 Microprocessor probe cable assembly is available to understand if this can sort the error.
 
+Probe did not make the difference. No clock led clearly lit.
+
+Revised interpretation:
+- This weakens the earlier assumption that the symptom was only caused by incomplete hookup hardware.
+- With the full A13 probe/cable assembly now tried and `NO CLOCK` still clearly lit, the fault tree should be split into two branches:
+- `target-side clock missing or invalid at the 6809`
+- `A13/A09/mainframe clock-detect path not recognizing a valid E clock`
+
+Manual evidence now most relevant:
+- The A09 guide says `NO CLOCK` means no `E-clock` is present from the microprocessor under test, or the `E-clock` period is slower than about `12.5 usec`.
+- The same guide also provides a front-panel `PROBE TEST` routine that verifies microprocessor-probe address, data, and control-line operation using synthetic signals from the analyzer.
+- During the A09 indicator-lights test with A13 connected to the `PROBE TEST` socket, the `NO CLOCK`, `HALTED`, `WAITING FOR INTERRUPT`, and `SYNCING` lamps are expected to light in sequence.
+- The mainframe repair reference says personality board `A9` both interfaces to the microprocessor under test and generates the front-panel `PROBE TEST` signals; it also states the `1 us CK` timing signal is the master clock for the probe-test generator on `A9`.
+
+Most useful next decision point:
+1. Run the A09 `PROBE TEST` routine exactly as documented.
+2. If the normal probe-test display appears and the trace-related probe tests pass, then the analyzer, A09 board, and A13 cable are at least substantially alive.
+3. If probe test fails, the problem is no longer best explained as only a missing target `E` clock; suspicion shifts toward the A13 probe, A11 panel socket/interconnect, A9 personality board, or shared mainframe timing/support logic.
+
+Updated ranking of likely causes:
+1. The target 6809 system still is not presenting a valid `E` clock at the pins the A13 actually sees.
+2. Probe orientation, contact quality, or grounding at the target CPU is still bad even with the complete cable assembly.
+3. The A09 probe-test generator or probe input path is faulty, so the analyzer is falsely reporting `NO CLOCK`.
+4. A shared timing/support fault in the 1611A mainframe is impairing A09 clock recognition or probe-test generation.
+
+Bench checks to do next, in order:
+1. Perform the documented A09 front-panel `PROBE TEST` and record whether the expected lamp sequence and trace display occur.
+2. If probe test passes, measure or scope the target 6809 `E` pin directly at the CPU and then at the corresponding A13 connection point.
+3. Verify whether the CPU under test is a `6809` or `6809E`; if it is a `6809E`, confirm the external clock source chain first.
+4. Inspect A13 socket/clip contact condition, orientation, and ground continuity under load, not just visually.
+5. If probe test fails, move inward from `A13` to `A11` and `A9`, using the mainframe service text and any available service-sheet access to the `A9` probe-test and clock signals.
+
+Current working conclusion:
+- As of `2026-08-20`, the symptom is no longer best treated as a pure setup misunderstanding.
+- The best next proof step is the built-in A09 `PROBE TEST`, because it cleanly separates `bad target clock` from `instrument/module/probe path fault`.
