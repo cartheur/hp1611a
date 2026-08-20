@@ -12,6 +12,10 @@ Repository for research and development with the hp 1611A Logic State Analyzer
 - `01611-61612`: 40-pin male plug with 3-inch cable
 - `1200-0682`: 40-pin protection socket
 
+Bench inventory update:
+
+- `01611-62101` External 8-bit Probe has been found and photographed: [01611-62101.jpg](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/01611-62101.jpg)
+
 For the `6809` setup specifically:
 
 - `01611-62116`: 6809 microprocessor probe (`A13`) for Option `A09`, bench-confirmed from the user's hardware

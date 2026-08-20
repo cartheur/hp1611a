@@ -127,3 +127,7 @@ Repo reference:
 Current status:
 - Live `6809` diagnosis through the `A13` `ZIF` path is paused until the missing target cable is either found or fabricated.
 - Revisit target-clock and live-capture diagnostics only after available cable parts are inventoried and a usable cable assembly is ready.
+
+Additional bench inventory note:
+- Found `01611-62101` External 8-bit Probe (`A12`).
+- Photo recorded at [images/01611-62101.jpg](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/01611-62101.jpg).
