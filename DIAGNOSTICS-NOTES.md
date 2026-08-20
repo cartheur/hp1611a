@@ -101,3 +101,25 @@ Bench checks to do next, in order:
 Current working conclusion:
 - As of `2026-08-20`, the symptom is no longer best treated as a pure setup misunderstanding.
 - The best next proof step is the built-in A09 `PROBE TEST`, because it cleanly separates `bad target clock` from `instrument/module/probe path fault`.
+
+## 2026-08-20 - Missing A13 target cable documented
+
+Observation:
+- The cable from the `A13` probe body to the target system's `40-pin` CPU socket is missing.
+
+Effect on diagnosis:
+- A `6809` inserted into the `A13` `ZIF` socket cannot be tested in its intended live-system mode until this cable is found or reproduced.
+- This means earlier `NO CLOCK` results obtained with only the CPU in the probe area must not be treated as valid proof of a bad `6809` or bad target clock.
+
+Original HP accessory candidates:
+1. `01611-61610` - `40-pin` male plug with `12 in.` cable.
+2. `01611-61612` - `40-pin` male plug with `3 in.` cable.
+3. `01611-61609` - alternate `40-pin` dual in-line clip with `12 in.` cable.
+
+Working decision:
+1. Keep watch for an original HP cable or complete accessory lot.
+2. In parallel, build a passive `1:1` replacement cable so live `6809` testing can resume.
+
+Repo reference:
+- Replacement/finding plan documented in `repairs/a13-target-cable-plan.md`.
+- Bench-confirmed `A13` probe part number from the user's hardware: `01611-62116`.

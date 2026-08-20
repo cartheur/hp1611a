@@ -4,6 +4,19 @@ Repository for research and development with the hp 1611A Logic State Analyzer
 
 ![unit](/images/2.jpg)
 
+## Accessory Part Numbers
+
+- `01611-62101`: External 8-bit Probe (`A12`)
+- `01611-61609`: 40-pin dual in-line clip with 12-inch cable
+- `01611-61610`: 40-pin male plug with 12-inch cable
+- `01611-61612`: 40-pin male plug with 3-inch cable
+- `1200-0682`: 40-pin protection socket
+
+For the `6809` setup specifically:
+
+- `01611-62116`: 6809 microprocessor probe (`A13`) for Option `A09`, bench-confirmed from the user's hardware
+- `A13`: A09 Microprocessor Probe assembly name used by the `10266A` Option `A09` documentation
+
 ## Manuals
 
 Markdown versions of the PDFs in `docs/` live in `docs-classified/`.
@@ -17,6 +30,7 @@ Markdown versions of the PDFs in `docs/` live in `docs-classified/`.
 - [docs-classified/mainframe/figures/README.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/docs-classified/mainframe/figures/README.md:1): Rendered figure and service-sheet pages for both mainframe manuals.
 - [docs-classified/operators-guide/figures/README.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/docs-classified/operators-guide/figures/README.md:1): Rendered figure pages from the A09 operator's guide.
 - [docs-classified/field-training-manual/figures/README.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/docs-classified/field-training-manual/figures/README.md:1): Rendered figure pages from the field training manual.
+- [repairs/a13-target-cable-plan.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repairs/a13-target-cable-plan.md:1): Plan for finding or reproducing the missing A13-to-target 40-pin cable needed for live 6809 testing.
 
 ### Mainframe Difference Note
 
