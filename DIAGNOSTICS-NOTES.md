@@ -123,3 +123,7 @@ Working decision:
 Repo reference:
 - Replacement/finding plan documented in `repairs/a13-target-cable-plan.md`.
 - Bench-confirmed `A13` probe part number from the user's hardware: `01611-62116`.
+
+Current status:
+- Live `6809` diagnosis through the `A13` `ZIF` path is paused until the missing target cable is either found or fabricated.
+- Revisit target-clock and live-capture diagnostics only after available cable parts are inventoried and a usable cable assembly is ready.
