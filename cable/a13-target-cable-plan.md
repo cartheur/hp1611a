@@ -112,6 +112,23 @@ This may work, but it is mechanically weaker and easier to miswire or mirror.
 
 These are current examples, not yet a final BOM.
 
+## Bench Checklist For IDC Receptacle Fit
+
+Before ordering or crimping the probe-side receptacle, confirm these points at the `A13` header:
+
+1. Count pins: `40 total`, arranged as `2 rows of 20`.
+2. Measure pitch along one row: `0.100 in.` / `2.54 mm` center-to-center.
+3. Measure row-to-row spacing: `0.100 in.` / `2.54 mm` centerline-to-centerline.
+4. Measure one post thickness: approximately `.025 in.` / `0.64 mm` square.
+5. Confirm there is enough clearance around the probe header for the IDC body and strain relief.
+6. Mark or verify `pin 1` before pressing the connector onto the ribbon cable.
+
+Interpretation:
+
+- if all four geometry checks match, a standard `40-position` `2x20` IDC receptacle such as `3M 89140-0103` is a plausible probe-side mate
+- if row spacing or pin pitch differs from `0.100 in.`, the common IDE/IDC candidate is not correct
+- if the posts are not close to `.025 in.` square, check alternate receptacle families before ordering
+
 ### IDC Ribbon Cable Parts
 
 - `3M 89140-0103`: `40-position` IDC receptacle, `2x20`, `0.1 in.` pitch, for `26-28 AWG` ribbon cable
