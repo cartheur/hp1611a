@@ -1,41 +1,45 @@
 # HP 1611A CRT Whine Repair Bench Plan
 
-Date: August 21, 2026
+Date: August 23, 2026
 
 ## Symptom
 
-The CRT starts normally with the unit, and the display appears stable and normal during warm-up. After about a minute, once the instrument is fully warmed, a high-frequency whine appears.
+The CRT starts normally with the unit, and the display appears stable and normal during warm-up. After at least five minutes of running, a high-frequency whine appears.
 
 Important clarification:
 
 - the screen brightness does not obviously drop when the whine begins
 - the display otherwise appears normal when the sound starts
 - the sound is high frequency rather than a low hum or buzz
+- the sound now seems strongest at the `A2` power supply board rather than the `A3` display board
+- one card shows what appears to be an older HP repair replacing `CR1-4`, `CR6`, `CR7`, `CR9`, and `CR10`
 
-Based on the HP manuals, the first area to inspect is the `A3` display driver board. In the `1611A`, the horizontal deflection circuit and the CRT high-voltage supply are linked together on `A3`, which makes that board the most likely source of a warm-up-related squeal.
+The new localization makes the `A2` low-voltage power supply the first place to prove or eliminate. The HP manual shows that `A2` contains a switching `+5 V` regulator using `Q1`, `L1`, `CR11`, and `U1`, plus linear `+12 V` and `-12 V` regulators. A warm-up-related whine from that board is more likely to come from:
 
-Because the screen stays visually normal when the whine starts, this now points more strongly to:
+- a magnetic component becoming mechanically noisy after warm-up, especially `L1`
+- a filter or timing capacitor drifting and pushing the `+5 V` switcher into audible operation
+- a cracked solder joint on a heavier `A2` part that changes with heat
+- a supply stage running under abnormal load from another board
 
-- a thermally drifting capacitor in the horizontal/HV section that is changing stress or resonance without yet collapsing the display
-- a mechanically noisy magnetic component in that same section, such as the transformer or deflection-related magnetics
-- a stressed switching transistor in the horizontal/HV path
-
-This makes a pure vertical sweep fault less likely as the primary cause.
+The older HP diode rework is important history, but it does not by itself prove that the replaced diodes are the present fault. Diodes are less likely to be the physical source of a whine than magnetics, stressed capacitors, or unstable switching behavior.
 
 Relevant manual notes:
 
-- `Display Driver A3` generates the CRT display drive and includes the horizontal deflection and high-voltage functions.
+- `Power Supply A2` provides the instrument low-voltage rails and includes a switching `+5 V` regulator.
+- The manual describes the `+5 V` section as a switcher using `Q1`, `L1`, `CR11`, and controller `U1`.
+- `Display Driver A3` still generates the CRT display drive and includes the horizontal deflection and high-voltage functions.
 - The manual explicitly says that if `A3U6`, `A3Q1`, or `A3Q9` fail, check `A3C2`, `A3C7`, and `A3C27`, because reduced capacitance or open circuits can raise peak voltages and cause breakdown stress.
 
 ## Goal
 
-Narrow the fault to the `A3` horizontal/HV section and work through the most likely capacitor failures before widening the search.
+First prove whether the warm-up whine is coming from `A2` and whether any low-voltage rail changes with it. If the `A2` rails remain solid, then return to the `A3` horizontal/HV section as the next most likely source.
 
 ## Safety
 
-- This is CRT/high-voltage circuitry. Do not probe casually.
-- Power down and discharge safely before touching the `A3` board or CRT-related wiring.
+- This instrument contains both mains-connected supply circuitry and CRT/high-voltage circuitry. Do not probe casually.
+- Power down and discharge safely before touching `A2`, `A3`, or CRT-related wiring.
 - Avoid handling the CRT neck or anode wiring unnecessarily.
+- Use clip leads with power off first whenever possible.
 
 ## Bench Worksheet
 
@@ -45,6 +49,8 @@ Power the unit and let it run until the whine starts.
 
 Record what changes at the same moment:
 
+- exact warm-up time to onset
+- where the sound is physically strongest: `A2`, `A3`, CRT area, or unclear
 - screen width
 - brightness
 - focus
@@ -53,48 +59,86 @@ Record what changes at the same moment:
 
 Interpretation:
 
-- If width, brightness, or focus change with the whine, suspect the `A3` horizontal/HV section first.
-- If the display remains visually normal and only the high-frequency whine appears, still suspect the `A3` horizontal/HV section first, especially the resonant capacitors, switching parts, and magnetics.
+- If the sound is strongest at `A2`, begin with the low-voltage power supply checks below even if the CRT still looks normal.
+- If width, brightness, or focus change with the whine, keep `A3` high on the list even if `A2` is noisy.
+- If the display remains visually normal and only the high-frequency whine appears, suspect either `A2` switcher resonance or `A3` horizontal/HV resonance.
 - If only vertical geometry changes, the vertical sweep section on `A3` moves up the list.
 
-### 2. Visual inspection of `A3`
+### 2. `A2` cold-versus-warm voltage pass
+
+Before replacing parts, check whether the low-voltage supply changes when the whine begins.
+
+Suggested rails:
+
+- `+5 V`
+- `+12 V`
+- `-12 V`
+
+Record each reading:
+
+- immediately after power-on
+- just before the whine starts
+- after the whine is clearly present
+
+Use `A2` test points from the manual where practical. The manual explicitly uses `A2TP14` and `A2TP6` for the `+5 V` setting/check.
+
+What matters:
+
+- a rail shifting when the sound begins
+- a rail that remains near nominal DC but becomes unstable with heat
+- a `+5 V` rail that is correct cold but drifts or chatters warm
+
+Quick worksheet:
+
+| Rail | Cold | Just Before Whine | During Whine | Notes |
+| --- | --- | --- | --- | --- |
+| `+5 V` |  |  |  |  |
+| `+12 V` |  |  |  |  |
+| `-12 V` |  |  |  |  |
+
+Interpretation:
+
+- If one or more `A2` rails shift with the whine, stay on `A2` first.
+- If all three rails remain stable and the display remains normal, move back toward `A3` horizontal/HV resonance.
+- If `+5 V` is the only rail that changes, the `A2` switcher becomes the lead suspect.
+
+### 3. Visual inspection of `A2`
 
 With power removed:
 
-- inspect for cracked capacitors
-- inspect for ring-cracked or dull solder joints
-- inspect for heat-darkened resistors
-- inspect `Q1`, `Q9`, and nearby parts for heat stress
-- inspect transformer/inductor areas for looseness or evidence of arcing
-- inspect the high-voltage section for carbon tracking or contamination
+- inspect `L1` for looseness, cracked varnish, or obvious mechanical movement
+- inspect `Q1`, `CR11`, and nearby components for heat stress
+- inspect electrolytics and small timing/filter capacitors around the switcher
+- inspect solder joints on heavier or hotter parts
+- inspect the area around the earlier HP diode replacements for overheated pads, non-original lead dress, or cracked joints
+- inspect for darkened board areas or previous rework that looks stressed again
 
-### 3. First replacement pass
+### 4. Interpretation of the older HP diode repair
 
-Replace or test these first:
+The replaced parts `CR1-4`, `CR6`, `CR7`, `CR9`, and `CR10` suggest this board had a significant earlier supply fault or factory/service campaign.
 
-- `A3C2`
-- `A3C7`
-- `A3C27`
+Working interpretation:
 
-Reason:
+- treat that diode cluster as a high-interest inspection area
+- do not assume the diodes are the physical noise source
+- suspect nearby capacitors, magnetics, or solder joints first if the sound is mechanical
+- if one rail is wrong, include the repaired diode network and its surrounding circuit immediately
 
-- HP specifically calls these out as likely causes of overstress around `A3U6`, `A3Q1`, and `A3Q9`.
+### 5. First `A2` repair pass if a rail or sound points there
 
-### 4. First re-test
+If `A2` proves suspicious, inspect or replace in this order:
 
-Power up and let the unit warm again.
+- reflow suspect solder joints on heavier `A2` components
+- inspect or replace the most stressed electrolytic or timing/filter capacitors around the `+5 V` switcher
+- inspect `L1` mechanically
+- check `Q1`
+- check `CR11`
 
-Observe:
+Then re-test from cold and compare the warm-up time.
 
-- Is the whine gone?
-- Does the display remain stable after warm-up?
-- Did width, brightness, or focus improve?
+### 6. `A3` fallback voltage-check pass
 
-If yes, stop here and proceed to final adjustment checks only if needed.
-
-### 4A. Voltage-check pass
-
-Since you have an HV probe, add a voltage-check pass before replacing too many parts.
+If the `A2` rails stay solid and the sound still seems related to the display section, return to `A3`.
 
 The `A3` display/HV section shows these useful rails in the manual:
 
@@ -102,29 +146,11 @@ The `A3` display/HV section shows these useful rails in the manual:
 - `+275 V`
 - `-150 V`
 
-These are worth checking because the manual ties the horizontal deflection circuit and CRT high-voltage functions together on `A3`.
-
-Suggested sequence:
-
-1. Measure and record the easier DC rails first with a normal DMM:
-
-- `+35 V`
-- `+275 V`
-- `-150 V`
-
-2. Record each reading:
+Record each reading:
 
 - immediately after power-on
 - just before the whine starts
 - after the whine is present
-
-3. If those remain steady, then use the HV probe to compare the CRT high-voltage-related reading cold versus warm.
-
-What matters:
-
-- a rail that shifts when the whine begins
-- a rail that stays near nominal DC but becomes unstable or noisy at warm-up
-- an HV-related reading that changes with the sound even if brightness still looks normal
 
 Interpretation:
 
@@ -138,9 +164,9 @@ Practical caution:
 - Use clip leads where possible with power off first, then power up for the measurement.
 - Keep one hand away from the chassis when working around live CRT/HV circuitry.
 - Do not move the HV probe around the CRT area while live unless the point and insulation are fully under control.
-- If you can safely compare only one rail cold versus warm, `+275 V` is a strong candidate.
+- If you can safely compare only one `A3` rail cold versus warm, `+275 V` is a strong candidate.
 
-### 5. Second pass if the whine remains
+### 7. `A3` first replacement pass if the supply checks out
 
 Inspect or replace next:
 
@@ -159,7 +185,7 @@ Also inspect closely at this stage:
 - the horizontal/HV transformer and nearby magnetics
 - solder joints on heavier components in that area
 
-### 6. Vertical-section pass if the symptom points there
+### 8. Vertical-section pass if the symptom points there
 
 If the display height or vertical linearity changes when the whine starts, inspect or replace:
 
@@ -168,7 +194,7 @@ If the display height or vertical linearity changes when the whine starts, inspe
 - `A3C19`
 - `A3C20`
 
-### 7. Final adjustment check
+### 9. Final adjustment check
 
 Only after the fault is stable:
 
@@ -242,18 +268,24 @@ If the whine appears, power down and let only the `A3` area cool fully before th
 
 ## Priority Order
 
-1. `A3C2`
-2. `A3C7`
-3. `A3C27`
-4. `A3C8`
-5. `A3Q1`
-6. `A3Q9`
-7. inspect transformer/magnetic components and their solder joints in the same horizontal/HV area
-8. `A3C14`, `A3C15`, `A3C19`, `A3C20` if the symptom looks vertical
+1. prove whether `A2` rails change cold versus warm
+2. inspect `A2` switcher area around `L1`, `Q1`, `CR11`, and nearby capacitors
+3. inspect the older HP diode-repair area for stressed rework or cracked joints
+4. reflow any suspect `A2` heavy-component solder joints
+5. if `A2` checks out, move to `A3C2`
+6. `A3C7`
+7. `A3C27`
+8. `A3C8`
+9. `A3Q1`
+10. `A3Q9`
+11. inspect transformer/magnetic components and their solder joints in the same horizontal/HV area
+12. `A3C14`, `A3C15`, `A3C19`, `A3C20` if the symptom looks vertical
 
 ## Notes For Next Session
 
-- Confirm the actual marking and style of `A3C8` before ordering.
-- Start with the smallest, highest-confidence capacitor set: `A3C2`, `A3C7`, `A3C27`.
-- Record any display change that appears exactly when the whine begins.
-- If there is no visible brightness or geometry shift at all, treat the problem as likely horizontal/HV resonance or stress before treating it as a general CRT brightness fault.
+- Record exact warm-up time to whine onset from a true cold start.
+- Record whether the sound is strongest at `A2` every time or only sometimes.
+- Measure `+5 V`, `+12 V`, and `-12 V` before swapping parts if possible.
+- Inspect and photograph the older HP diode repair area on `A2`.
+- Confirm the actual marking and style of `A3C8` before ordering if the fault falls back to `A3`.
+- If there is no visible brightness or geometry shift at all and `A2` rails stay solid, treat the problem as likely horizontal/HV resonance or stress on `A3` before treating it as a general CRT brightness fault.
