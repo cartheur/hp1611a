@@ -99,19 +99,87 @@ The present recommendation is:
 
 This division still matches the front-panel asymmetry well, but the right-side screen should now be treated as a near-full facade element rather than a narrow sidebar.
 
+## Important Architectural Split
+
+The two front displays do **not** need to be treated as equal from a computing point of view.
+
+That earlier assumption created confusion.
+
+The correct framing is:
+
+- left display: rich touch UI with real event handling
+- right display: terminal, status, logs, or compact diagnostic information
+
+These are different jobs and may justify different implementation strategies.
+
+### Left display role
+
+The left touchscreen is the display that genuinely wants the larger host computer.
+
+Reasons:
+
+- it must handle touch eventing
+- it will likely host the main operator workflows
+- it is the natural place for environmental-variable control and scenario interaction
+- it carries more UI state and layout complexity than the right side
+
+So the left display should be treated as the primary `Raspberry Pi 4` display.
+
+### Right display role
+
+The right display should **not** automatically be assumed to need the same class of rendering path as the left side.
+
+If it is truly a "terminal display," then several architectures are plausible:
+
+- a second `Pi 4` `HDMI` display showing a terminal or status pane
+- a simpler serial or controller-driven text/status display
+- a compact diagnostic pane driven by the controller tier rather than the full host UI
+
+So the key question for the right side is not "can it be a second modern monitor?"
+
+The key question is:
+
+- what semantic job should the right-side pane actually perform?
+
+Examples:
+
+- raw target serial output
+- interpreted machine state
+- environmental-variable history
+- event and fault logs
+- compact counters, flags, and live status
+
+### Practical consequence
+
+The left-side screen choice can be considered settled as the primary touch UI surface.
+
+The right-side facade dimensions are still valid, but the implementation path should remain open until the exact meaning of "terminal display" is fixed.
+
+That means:
+
+- keep the left screen and host assumptions stable
+- avoid overcommitting the right screen to a full rich-display path before its role is defined
+
+This distinction matters because it separates:
+
+- screen geometry decisions
+- from display-semantic decisions
+
+and prevents the project from solving the wrong problem too early.
+
 ## Controller Direction
 
 The preferred system direction is now:
 
-- `Pi Zero 2 W`: graphics, touch UI, terminal, logging, network features
-- `Arduino`: front-panel I/O, keypad scanning, lamps, timing-sensitive control, hardware bridge
+- `Raspberry Pi 4`: graphics, touch UI, terminal, logging, storage, network features
+- `Arduino Nano 33 IoT`: front-panel I/O, keypad scanning, lamps, timing-sensitive control, environmental-variable bridge
 
 Reasoning:
 
-- a `Pi Zero 2 W` is much better suited than a low-end Arduino for a modern touchscreen UI
-- an Arduino remains useful as a deterministic hardware controller
-- the left-side main display is the natural place for the Pi-driven UI
-- the right-side display can be either Pi-driven or driven by a simpler secondary controller depending on depth and cabling
+- the available `Raspberry Pi 4` already solves the missing-host problem cleanly
+- the `Pi 4` is much better suited than a microcontroller for a modern dual-screen UI
+- the available `Arduino Nano 33 IoT` is physically easier to integrate than a full-size `Mega`
+- the `Nano 33 IoT` still provides a useful deterministic controller tier, with optional `Wi-Fi/Bluetooth` convenience if needed
 
 ## Provisional Selection Strategy
 
@@ -124,7 +192,7 @@ Instead, shortlist displays in two bins.
 - visible area significantly larger than a standard `5"` `800x480`
 - touch support preferred
 - rear depth less critical than on the right
-- good compatibility with `Pi Zero 2 W`
+- good compatibility with `Raspberry Pi 4`
 
 ### Right-side shortlist criteria
 
@@ -140,8 +208,8 @@ If a dual-screen build is pursued, the current high-level architecture should be
 
 1. left main display in the original CRT region
 2. right secondary display in the original personality-module region
-3. `Pi Zero 2 W` handling the UI layer
-4. Arduino handling instrument and panel control
+3. `Raspberry Pi 4` handling the UI layer
+4. `Arduino Nano 33 IoT` handling instrument and panel control
 
 ## Candidate Screen And Support-Part Shortlist
 
@@ -149,38 +217,117 @@ This section adds concrete candidate parts to the geometric conclusions above.
 
 The intent is not to claim that every part below is already proven to fit the `1611A`.
 
-The intent is to define a practical shortlist that matches the current facade measurements and the preferred `Pi Zero 2 W` plus Arduino architecture.
+The intent is to define a practical shortlist that matches the current facade measurements and the preferred `Raspberry Pi 4` plus `Arduino Nano 33 IoT` architecture.
 
 Structured parts for this screen-repurpose direction are recorded in:
 
 - [display-bom.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/screen/display-bom.csv:1)
+- [display-shopping-list.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/screen/display-shopping-list.csv:1)
+
+## Shopping-List Decision
+
+As of `August 24, 2026`, the display choice should be treated as settled enough for a shopping list:
+
+- left display: `Waveshare 5inch HDMI LCD (H) V4`
+- right display: `Waveshare 7inch HDMI LCD (C)`
+
+This is not the most visually aggressive possible pairing.
+
+It is the most defensible pairing from the current combination of:
+
+- measured facade geometry
+- `Raspberry Pi 4` compatibility
+- mechanical risk
+- present-day product availability
+
+### Why this is the settled pair
+
+#### Left side: `Waveshare 5inch HDMI LCD (H) V4`
+
+Checked current figures:
+
+- overall size: `121.00 mm x 89.48 mm`
+- display area: `108.00 mm x 64.80 mm`
+- resolution: `800 x 480`
+- touch: capacitive
+
+Why it wins:
+
+- fits the left side mechanically without drama
+- uses standard `HDMI` plus `USB`
+- is directly suitable for `Raspberry Pi 4`
+- avoids the performance and rotation caveats of the more exotic portrait-first `5.5"` and `2K` display families
+
+Why it is not perfect:
+
+- it under-fills the left facade compared with the available opening
+
+Even so, it is the best current shopping-list choice because the larger alternatives introduce too much mechanical or host-side risk for the first build.
+
+#### Right side: `Waveshare 7inch HDMI LCD (C)`
+
+Checked current figures:
+
+- overall size: `164.90 mm x 106.96 mm x 8 mm`
+- display area: `154.21 mm x 85.92 mm`
+- resolution: `1024 x 600`
+- touch: capacitive
+
+Why it wins:
+
+- it is the best front-fit match found so far for the right `160 mm x 100 mm` visible opening
+- it fits within the right `~168 mm` mechanical width on paper
+- it gives the right side the intended "full auxiliary pane" appearance
+
+Why it remains the critical bay:
+
+- the right side is still depth-sensitive
+- connector and cable-bend clearance still need to be respected in mounting design
+
+Even with that caution, this is still the correct display to buy for the right side.
+
+### Shopping-list caveat
+
+The display modules are settled for purchase, but the exact right-side video routing and power packaging still need final implementation detail.
+
+This matters because:
+
+- `Raspberry Pi 4` has the display capability needed for the concept, but final cable routing, connector orientation, and power packaging still matter
+- the design wants two front displays
+
+So the shopping list should be interpreted in two tiers:
+
+- `buy_now`: the settled display modules, basic adapters, and mounting hardware
+- `hold`: final integration parts whose exact form depends on the chosen `Pi 4` placement, cable routing, and power packaging
+
+Use [display-shopping-list.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/screen/display-shopping-list.csv:1) as the purchase-oriented version of the BoM.
 
 ### Preferred screen pair
 
 #### Left side candidate
 
-`Waveshare 7inch HDMI LCD (C)`
+`Waveshare 5inch HDMI LCD (H) V4`
 
 - resolution: `1024 x 600`
-- display area: `154.21 mm x 85.92 mm`
-- overall size: `164.90 mm x 106.96 mm x 8 mm`
+- display area: `108.00 mm x 64.80 mm`
+- overall size: `121.00 mm x 89.48 mm`
 - touch: capacitive, `5-point`
-- interface: `HDMI` plus `USB` for touch and power
+- interface: `HDMI` plus `USB`
 
 Why it is attractive:
 
-- much better front-area usage than a standard `5"` panel
-- directly compatible with `Pi Zero 2 W`
+- straightforward fit inside the left bay
+- directly compatible with `Raspberry Pi 4`
 - capacitive touch suits the main UI role well
 
 Why it is not yet fully committed:
 
-- likely too large to expose fully in the left `140 mm x 100 mm` visible opening without deliberate bezel cropping
-- outer size exceeds the left `~155 mm` mechanical width, so left-side installation needs a careful mounting concept
+- it does not maximize the left facade
+- it is a conservative fit choice rather than the boldest possible visual choice
 
 Current verdict:
 
-- strong candidate only if bezel cropping is acceptable and left-side mechanics prove workable
+- settled left-side shopping-list choice
 
 #### Right side candidate
 
@@ -203,8 +350,7 @@ Why it is risky:
 
 Current verdict:
 
-- the best front-fit candidate for the right side so far
-- should be treated as the reference geometry for the right aperture
+- settled right-side shopping-list choice and reference geometry for the right aperture
 
 ### Safer fallback screen pair
 
@@ -230,8 +376,7 @@ Why it is a fallback rather than the current ideal:
 
 Current verdict:
 
-- safest left-side part family
-- aesthetically second choice compared with a larger panel
+- still valid if the exact Waveshare left-side module changes, but no longer the primary shopping-list pick
 
 #### Right side fallback
 
@@ -263,47 +408,37 @@ Examples such as the Adafruit `3.2"` `320 x 820` rectangular bar TFT remain visu
 
 ### Main UI computer
 
-`Raspberry Pi Zero 2 W`
-
-- current official positioning: `65 mm x 30 mm` form factor
-- quad-core `1 GHz` Cortex-A53
-- `512 MB` SDRAM
-- mini `HDMI`
-- micro `USB` OTG
-- official price currently stated as `$15`
+`Raspberry Pi 4`
 
 Why it fits this project:
 
-- small enough to hide easily inside the chassis
-- much better suited than a low-end Arduino for the main UI and terminal layer
-- simple HDMI path to one primary screen
+- already on hand
+- sufficient graphics and software headroom for the display role
+- much better suited than a microcontroller for the main UI and terminal layer
+- easier path to a true two-display setup than the abandoned `Pi Zero 2 W` plan
 
 ### Hardware controller
 
 Preferred pragmatic controller:
 
-`Arduino Mega 2560 Rev3`
-
-- current official price: `$49.90`
-- `54` digital I/O
-- `16` analog inputs
-- `4` hardware UARTs
+`Arduino Nano 33 IoT`
 
 Why it fits this project:
 
-- abundant I/O for switches, lamps, keypad matrix, and miscellaneous control lines
-- multiple UARTs simplify communication with the Pi and optional peripherals
-- easier choice than a small Arduino when the front panel starts to grow in complexity
+- already on hand
+- small physical footprint
+- suitable for deterministic panel and target-facing control jobs
+- includes optional wireless convenience through onboard `Wi-Fi/Bluetooth`
 
 Alternative:
 
-- use a smaller Arduino only if the panel-I/O count stays modest
+- use the older mini-USB `Arduino Nano` as a helper or fallback if a narrowly-scoped secondary controller is useful
 
 ### Left-screen interface support
 
-For a `Pi Zero 2 W` main display path:
+For a `Raspberry Pi 4` main display path:
 
-- mini-HDMI to HDMI adapter or cable for the Pi
+- micro-HDMI to HDMI adapter or cable for the Pi
 - USB connection for touch and, depending on panel, panel power
 
 If a raw `5"` TTL TFT is used instead of a self-contained HDMI display, candidate support boards include:
@@ -321,6 +456,7 @@ Use notes:
 Preferred approach:
 
 - use an HDMI display whose panel electronics are shallow enough for the right bay
+- route video from the `Pi 4` with the flattest practical cabling
 - if depth is marginal, use a panel whose driver electronics can be relocated away from the facade
 
 Practical support items likely needed:
@@ -333,7 +469,7 @@ Practical support items likely needed:
 
 Recommended baseline:
 
-- one UART link between `Pi Zero 2 W` and Arduino
+- one UART link between `Raspberry Pi 4` and `Arduino Nano 33 IoT`
 - shared ground
 - optional second UART or USB serial path for debug and maintenance
 
@@ -358,8 +494,8 @@ The `7"` HDMI display family is more demanding than the small `5"` panel family 
 
 If selecting parts today for the planning document rather than for immediate purchase, the current preferred package should be recorded as:
 
-1. `Pi Zero 2 W` as the UI computer
-2. `Arduino Mega 2560 Rev3` as the panel and instrument controller
+1. `Raspberry Pi 4` as the UI computer
+2. `Arduino Nano 33 IoT` as the panel and instrument controller
 3. right side anchored around a `7"` rectangular HDMI display geometry similar to `Waveshare 7inch HDMI LCD (C)`
 4. left side either:
    - another larger-than-`5"` touch display if mechanical work allows, or
@@ -453,7 +589,7 @@ Avoid designs that require the target side to interpret a large modern protocol 
 For this repo's design direction, the most realistic loop is:
 
 1. operator adjusts environmental variables on the left touchscreen
-2. `Pi Zero 2 W` manages the UI and scenario logic
+2. `Raspberry Pi 4` manages the UI and scenario logic
 3. controller hardware converts those choices into simple target-facing signals
 4. the `8-bit` target reacts
 5. the right display shows logs, traces, counters, or state changes
@@ -477,6 +613,8 @@ Preferred presentation:
 - mostly static layout
 - small text and dense information are acceptable
 - touch is optional on this side
+
+This side is best treated as semantically lighter than the left side unless later requirements prove otherwise.
 
 ## Bezel Strategy
 
