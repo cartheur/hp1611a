@@ -9,14 +9,14 @@ The design target is:
 - original `A4` keyboard retained
 - replacement board plugs into the `XA5` slot using the existing `100-pin` card edge
 - keyboard scan and key-sense method reproduced
-- modern logic used where it lowers build risk
+- `74LS` logic used for all TTL glue logic
 - through-hole and wire-wrap-friendly parts preferred
 
 Related design notes:
 
-- [xa5-keyboard-replacement-vector-card-sketch.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/xa5-keyboard-replacement-vector-card-sketch.md)
-- [keyboard-to-bus-summary.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/keyboard-to-bus-summary.md)
-- [a1-interconnect-pin-by-pin.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/a1-interconnect-pin-by-pin.csv)
+- [xa5-keyboard-replacement-vector-card-sketch.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/keyboard/hp-native/xa5-keyboard-replacement-vector-card-sketch.md)
+- [keyboard-to-bus-summary.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/keyboard/hp-native/keyboard-to-bus-summary.md)
+- [a1-interconnect-pin-by-pin.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/a1-interconnect-pin-by-pin.csv)
 
 ## Build Philosophy
 
@@ -188,17 +188,17 @@ Recommendation:
 
 The keyboard requires `SCAN A-D`, with `SCAN A-C` selecting row address and `SCAN D` acting as enable.
 
-## `1x` `74HCT138` or `74HC138`
+## `1x` `74LS138`
 
 Purpose:
 - decodes a `3-bit` row address into `1-of-8` row selection
 
-Preferred part:
-- `74HCT138`
+Required logic family:
+- `74LS138`
 
-Why `HCT` is a nice choice:
-- comfortable `5 V` TTL-compatible thresholds
-- friendly when interfacing mixed logic families
+Why `74LS` here:
+- matches the design constraint for this keyboard build
+- keeps the glue logic family consistent across the board
 
 Function in this build:
 - MCU drives three row-address inputs
@@ -275,18 +275,22 @@ The `KS` lines are the most important analog part of the whole project.
 
 The keyboard does not return clean digital logic levels by itself. It returns small pulses, and the replacement board must turn those into reliable logic events.
 
-## `2x` `LM339N`
+## `2x` `LM339AN`
 
 Purpose:
 - comparators for conditioning the `KS` pulses
 - provide threshold detection for `KS0-KS4` and `KS7`
 - leave spare channels for debug thresholding or future expansion
 
-Why `LM339N`:
+Preferred part:
+- `LM339AN`
+
+Why `LM339AN`:
 - inexpensive
 - through-hole DIP
 - open-collector outputs are easy to combine with pull-ups
 - forgiving in experimental analog front ends
+- a good stocked part for this project and future comparator work
 
 Why two packages:
 - each package gives `4` comparators
@@ -355,18 +359,16 @@ Notes:
 
 ## 6. Logic Cleanup / Pulse Conditioning
 
-## `1x` `74HCT14` or `74HC14`
+## `1x` `74LS14`
 
 Purpose:
 - Schmitt-trigger cleanup for comparator outputs or pulse-shaped lines
 - can also help generate clean timing edges for the MCU
 
-Preferred part:
-- `74HCT14`
-
 Why:
 - strong utility part
 - very helpful on wire-wrap builds where edges and noise can be uglier than on a PCB
+- available in the required `74LS` family
 
 ### `1x` `14-pin DIP socket`
 
@@ -375,7 +377,7 @@ Purpose:
 
 ## 7. Optional Monostable / Event Hold Helper
 
-## `1x` `74HCT123` or `74HC123`
+## `1x` `74LS123`
 
 Purpose:
 - optional monostable for pulse stretching
@@ -395,7 +397,7 @@ Purpose:
 
 Only add this after the scanner is working by itself.
 
-## `1x` `74HCT245` or `74HC245`
+## `1x` `74LS245`
 
 Purpose:
 - tri-state bus transceiver
@@ -416,8 +418,8 @@ Purpose:
 ### Optional additional latch IC
 
 Examples:
-- `74HCT373`
-- `74HCT574`
+- `74LS373`
+- `74LS574`
 
 Purpose:
 - holds a stable output code if you want latched bus presentation rather than purely firmware-timed drive
@@ -665,18 +667,18 @@ This is the most practical shopping list for a scanner-only first revision.
 ### Essential semiconductors
 
 - `1x` `ATmega328P-PU`
-- `1x` `74HCT138`
-- `2x` `LM339N`
-- `1x` `74HCT14`
+- `1x` `74LS138`
+- `2x` `LM339AN`
+- `1x` `74LS14`
 - `8x` `2N3904` or `2N2222A`
 - `20x` `1N4148`
 - `1x` `1N5819`
 
 ### Optional semiconductors
 
-- `1x` `74HCT123`
-- `1x` `74HCT245`
-- `1x` `74HCT373` or `74HCT574`
+- `1x` `74LS123`
+- `1x` `74LS245`
+- `1x` `74LS373` or `74LS574`
 
 ### Sockets
 
@@ -723,7 +725,7 @@ Goal:
 
 Populate:
 
-- `74HCT138`
+- `74LS138`
 - row driver transistors
 
 Goal:
@@ -733,9 +735,9 @@ Goal:
 
 Populate:
 
-- `LM339N`
+- `LM339AN`
 - threshold network
-- `74HCT14`
+- `74LS14`
 
 Goal:
 - detect real key pulses from `KS` lines
@@ -749,7 +751,7 @@ Goal:
 
 Populate only if needed:
 
-- `74HCT245`
+- `74LS245`
 - optional latch
 
 Goal:
@@ -770,9 +772,9 @@ Avoid for the first build:
 If you want the lowest-risk, most buildable wire-wrap version, start with this exact core:
 
 - `ATmega328P-PU`
-- `74HCT138`
-- `2x LM339N`
-- `74HCT14`
+- `74LS138`
+- `2x LM339AN`
+- `74LS14`
 - `8x 2N3904`
 - `1N4148` assortment
 - resistor and capacitor tuning assortment

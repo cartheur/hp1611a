@@ -14,14 +14,14 @@ It does **not** yet attempt full `A5` emulation.
 
 It is written to match the recommended BOM in:
 
-- [xa5-keyboard-replacement-wirewrap-bom.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/xa5-keyboard-replacement-wirewrap-bom.md)
+- [xa5-keyboard-replacement-wirewrap-bom.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/keyboard/hp-native/xa5-keyboard-replacement-wirewrap-bom.md)
 
 ## Assumed Parts In This Plan
 
 - `U1`: `ATmega328P-PU`
 - `U2`: `74HCT138` row decoder
-- `U3`: `LM339N` comparator bank A
-- `U4`: `LM339N` comparator bank B
+- `U3`: `LM339AN` comparator bank A
+- `U4`: `LM339AN` comparator bank B
 - `U5`: `74HCT14` Schmitt inverter / logic cleanup
 - `Q1-Q8`: `2N3904` row driver transistors
 

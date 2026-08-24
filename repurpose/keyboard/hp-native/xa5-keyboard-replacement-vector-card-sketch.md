@@ -312,6 +312,6 @@ That is the lowest-risk and most practical vector-board design.
 
 ## Related Files
 
-- [keyboard-to-bus-summary.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/keyboard-to-bus-summary.md)
-- [a1-interconnect-pin-by-pin.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/a1-interconnect-pin-by-pin.csv)
-- [a1-card-to-card-connection-table.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/images/service-sheets/a1-card-to-card-connection-table.md)
+- [keyboard-to-bus-summary.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/keyboard/hp-native/keyboard-to-bus-summary.md)
+- [a1-interconnect-pin-by-pin.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/a1-interconnect-pin-by-pin.csv)
+- [a1-card-to-card-connection-table.md](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/a1-card-to-card-connection-table.md)

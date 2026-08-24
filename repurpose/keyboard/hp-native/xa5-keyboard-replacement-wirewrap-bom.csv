@@ -11,26 +11,26 @@ CTRL-005,Controller,1,SW_RESET,Reset pushbutton,THT tact switch,6 mm tact switch
 CTRL-006,Controller,1,R_RESET,10k resistor,Axial 1/4W,10k 1/4W pull-up,Holds RESET inactive,yes,
 CTRL-007,Controller,1,J_ISP,AVR ISP header,2x3 0.1-inch header,Generic header,Firmware programming and recovery,yes,
 CTRL-008,Controller,1,J_UART,UART/debug header,1x4 or 1x6 0.1-inch header,Generic header,Serial debug output,yes,Can be larger if you want extra signals
-SCAN-001,Scan logic,1,U2,74HCT138,DIP-16,74HCT138 1-of-8 decoder,Row decode for SCAN A-C,yes,HCT preferred at 5 V
+SCAN-001,Scan logic,1,U2,74LS138,DIP-16,74LS138 1-of-8 decoder,Row decode for SCAN A-C,yes,Use 74LS family only
 SCAN-002,Scan logic,1,U2 socket,16-pin wire-wrap socket,DIP-16 socket,Wire-wrap DIP socket,Socket for decoder,yes,
 SCAN-003,Scan logic,8,Q1-Q8,2N3904 or 2N2222A,TO-92,2N3904,Row driver/sink transistors,no,"Useful for fuller pulse-drive stage; can omit in absolute first revision"
 SCAN-004,Scan logic,8,RB_Q,2.2k base resistors,Axial 1/4W,2.2k 1/4W resistor,Limits base current to row drivers,no,Value can be adjusted
 SCAN-005,Scan logic,8,RBIAS_Q,10k bias resistors,Axial 1/4W,10k 1/4W resistor,Defines transistor idle state,no,Topology-dependent
 SCAN-006,Scan logic,1,C_PULSE,Pulse-shaping capacitor,Ceramic radial/disc,470 pF to 4.7 nF,Shapes row excitation pulse,no,Tuning part
 SCAN-007,Scan logic,1,R_PULSE,Pulse-path resistor,Axial 1/4W,100 ohm to 4.7k,Works with pulse capacitor and row network,no,Tuning part
-SENSE-001,Sense front end,2,U3-U4,LM339N comparator,DIP-14,LM339N,Converts KS pulses into thresholded events,yes,Two packages give eight channels total
+SENSE-001,Sense front end,2,U3-U4,LM339AN comparator,DIP-14,LM339AN,Converts KS pulses into thresholded events,yes,Preferred comparator choice
 SENSE-002,Sense front end,2,U3-U4 sockets,14-pin wire-wrap sockets,DIP-14 socket,Wire-wrap DIP socket,Sockets for comparators,yes,
 SENSE-003,Sense front end,6,R_KS_IN,4.7k input series resistors,Axial 1/4W,4.7k 1/4W resistor,Protects and conditions KS inputs,yes,One per used KS line
 SENSE-004,Sense front end,12,D_KS_CLAMP,1N4148,DO-35,1N4148,Clamp/protection diodes for KS inputs,no,Two per line if full clamp network used
 SENSE-005,Sense front end,1,RV_THRESH,10k or 20k trimmer,THT trimmer pot,10k trim pot,Adjustable comparator threshold,yes,Very helpful during tuning
 SENSE-006,Sense front end,6,R_PULLUP_CMP,10k pull-up resistors,Axial 1/4W,10k 1/4W resistor,Pull-ups for LM339 open-collector outputs,yes,
-LOGIC-001,Logic cleanup,1,U5,74HCT14,DIP-14,74HCT14 Schmitt inverter,Cleans comparator outputs for MCU capture,yes,Very useful on wire-wrap builds
+LOGIC-001,Logic cleanup,1,U5,74LS14,DIP-14,74LS14 Schmitt inverter,Cleans comparator outputs for MCU capture,yes,Very useful on wire-wrap builds
 LOGIC-002,Logic cleanup,1,U5 socket,14-pin wire-wrap socket,DIP-14 socket,Wire-wrap DIP socket,Socket for Schmitt IC,yes,
-LOGIC-003,Logic cleanup,1,U6,74HCT123,DIP-16,74HCT123 monostable,Optional pulse stretching/noise hardening,no,Firmware may make it unnecessary
+LOGIC-003,Logic cleanup,1,U6,74LS123,DIP-16,74LS123 monostable,Optional pulse stretching/noise hardening,no,Firmware may make it unnecessary
 LOGIC-004,Logic cleanup,1,U6 socket,16-pin wire-wrap socket,DIP-16 socket,Wire-wrap DIP socket,Socket for optional monostable,no,
-BUS-001,Optional bus output,1,U7,74HCT245,DIP-20,74HCT245,Optional buffered output / future bus emulation,no,Do not populate until scanner works
+BUS-001,Optional bus output,1,U7,74LS245,DIP-20,74LS245,Optional buffered output / future bus emulation,no,Do not populate until scanner works
 BUS-002,Optional bus output,1,U7 socket,20-pin wire-wrap socket,DIP-20 socket,Wire-wrap DIP socket,Socket for bus transceiver,no,
-BUS-003,Optional bus output,1,U8,74HCT373 or 74HCT574,DIP-20,74HCT373 or 74HCT574,Optional output latch for stable bus code,no,Only if latched output is needed
+BUS-003,Optional bus output,1,U8,74LS373 or 74LS574,DIP-20,74LS373 or 74LS574,Optional output latch for stable bus code,no,Only if latched output is needed
 BUS-004,Optional bus output,1,U8 socket,20-pin wire-wrap socket,DIP-20 socket,Wire-wrap DIP socket,Socket for optional latch,no,
 PWR-001,Power,1,D_PWR,1N5819 Schottky diode,DO-41,1N5819,Input protection / isolation,yes,Optional in theory but recommended in practice
 PWR-002,Power,1,F1,Fuse or resettable polyfuse,Axial fuse or radial PTC,Small fuse or polyfuse,Protects experimental card and host,yes,Strongly recommended
