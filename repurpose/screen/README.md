@@ -271,7 +271,7 @@ Checked current figures:
 - overall size: `164.90 mm x 106.96 mm x 8 mm`
 - display area: `154.21 mm x 85.92 mm`
 - resolution: `1024 x 600`
-- touch: capacitive
+- touch: capacitive, available if later needed
 
 Why it wins:
 
@@ -285,6 +285,12 @@ Why it remains the critical bay:
 - connector and cable-bend clearance still need to be respected in mounting design
 
 Even with that caution, this is still the correct display to buy for the right side.
+
+The capacitive touch layer on this panel should be treated as a bonus capability:
+
+- present in the purchased hardware
+- not required by the current right-side role
+- available later if the right pane evolves from passive status into an auxiliary control surface
 
 ### Shopping-list caveat
 
@@ -301,6 +307,46 @@ So the shopping list should be interpreted in two tiers:
 - `hold`: final integration parts whose exact form depends on the chosen `Pi 4` placement, cable routing, and power packaging
 
 Use [display-shopping-list.csv](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/screen/display-shopping-list.csv:1) as the purchase-oriented version of the BoM.
+
+### Aperture-versus-display comparison
+
+This table compares the measured facade openings with the currently chosen display modules.
+
+| Side | Visible aperture | Approx. mechanical width | Chosen display | Display area | Module size | Front-fit summary | Cable / connector concern |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Left CRT side | `140 mm x 100 mm` | `~155 mm` | `Waveshare 5inch HDMI LCD (H) V4` | `108.00 mm x 64.80 mm` | `121.00 mm x 89.48 mm` | safe mechanical fit, but visually under-fills the opening | lower-risk bay; still check exact `HDMI` and `USB` connector orientation so cable bend does not interfere with bezel setback |
+| Right personality side | `160 mm x 100 mm` | `~168 mm` | `Waveshare 7inch HDMI LCD (C)` | `154.21 mm x 85.92 mm` | `164.90 mm x 106.96 mm x 8 mm` | near-ideal front coverage and within mechanical width on paper | highest-risk bay; must inspect `HDMI`, `USB`, and any onboard PCB protrusions because rear clearance is shallow and cable bend radius may dominate the real fit |
+
+Immediate implications:
+
+- the left side is mostly a visual-fit problem, not a raw mechanical-fit problem
+- the right side is both a facade-fit and cable-clearance problem
+- the right-side module should be physically inspected with attention to connector direction before mounting is frozen
+
+### Rear-interface observation for the chosen `7"` panel
+
+The added rear image for `Waveshare 7inch HDMI LCD (C)` is encouraging for the shallow right-side bay.
+
+Observed from [7-in.jpg](/home/cartheur/ame/aiventure/aiventure-github/cartheur/hp1611a/repurpose/screen/7-in.jpg:1):
+
+- the main `HDMI` connector is placed at the left edge of the rear PCB
+- the `USB` connector is also placed at the left edge
+- the backlight switch is likewise at the same edge
+- there is no large central rear connector block projecting straight backward from the middle of the panel
+
+Why this helps:
+
+- cable exit can be routed sideways from the panel edge rather than directly rearward from the center
+- this reduces the risk that connector depth alone will consume the shallow cavity behind the right aperture
+- it makes bracket design more plausible because the center rear area is comparatively clear
+
+What still needs checking on the real part:
+
+- exact plug body thickness once `HDMI` and `USB` cables are installed
+- bend radius of the chosen cables immediately after the connectors
+- whether the left-edge connector side aligns favorably with the available chassis escape path inside the `1611A`
+
+So the backside image improves confidence in the right-side choice, but the final fit still depends on the cables, not just the bare module.
 
 ### Preferred screen pair
 
@@ -336,6 +382,7 @@ Current verdict:
 - resolution: `1024 x 600`
 - display area: `154.21 mm x 85.92 mm`
 - overall size: `164.90 mm x 106.96 mm x 8 mm`
+- touch: capacitive, but not currently required by role
 
 Why it is attractive:
 
@@ -612,7 +659,7 @@ Preferred presentation:
 
 - mostly static layout
 - small text and dense information are acceptable
-- touch is optional on this side
+- touch is optional on this side even though the currently selected `7"` panel includes capacitive touch
 
 This side is best treated as semantically lighter than the left side unless later requirements prove otherwise.
 
