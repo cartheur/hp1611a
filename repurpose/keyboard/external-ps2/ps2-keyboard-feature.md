@@ -38,6 +38,16 @@ This means the firmware can use one internal key-processing pipeline whether the
 - it keeps the hardware simple enough for wire-wrap or vector-card implementation
 - it allows modern `USB` keyboards through an external active converter when necessary
 
+## Practical Rev-1 Protection Approach
+
+For the first build, keep the `PS/2` input protection simple and through-hole friendly:
+
+- `4.7k` pull-ups on `CLK` and `DATA`
+- `330 ohm` series resistors on `CLK` and `DATA`
+- no SMT `TVS` array required
+
+If additional protection is desired later, an optional discrete clamp network using `1N4148` diodes is easier to integrate on vector board than a small SMT ESD array.
+
 ## Important `USB` Note
 
 A passive `USB`-to-`PS/2` plug adapter is only useful if the keyboard itself already supports `PS/2`.

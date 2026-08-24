@@ -23,10 +23,10 @@ Use a small mixed-signal controller card in the `XA5` slot with:
 The simplest modern implementation is:
 
 - `MCU`: RP2040, STM32, or AVR
-- `row decoder`: `74HC138` plus transistor/MOSFET row drivers
+- `row decoder`: `74LS138` plus transistor/MOSFET row drivers
 - `column sense`: comparators or fast transistor amplifiers for `KS0-KS4`, `KS7`
 - `power`: local `+5 V` logic, optional `3.3 V` regulator for MCU
-- `optional output`: `74LVC245` or open-collector/tri-state buffer stage to drive a chosen code onto bus lines
+- `optional output`: `74LS245` or open-collector/tri-state buffer stage to drive a chosen code onto bus lines
 
 ## What The Original Keyboard Needs
 
@@ -114,12 +114,12 @@ Replicate the original behavior in a simpler way:
 - MCU outputs a `4-bit` scan value
 - `SCAN A-C` select one of `8` rows
 - `SCAN D` acts as row-enable
-- a `74HC138` decodes the row number
+- a `74LS138` decodes the row number
 - a driver bank sinks the selected row pulse current
 
 Suggested hardware:
 
-- `74HC138` or `74HCT138`
+- `74LS138`
 - `8` NPN transistors or small NMOS devices for row pulse sinking
 - one pulse capacitor and resistor network to generate sharp excitation pulses
 
@@ -263,11 +263,11 @@ A1/XA5 edge
 If you want a first-pass build that is realistic on vector board:
 
 - `1x` MCU module or DIP MCU
-- `1x 74HC138`
+- `1x 74LS138`
 - `8x` row driver transistors
 - `2x LM339`
-- `1x 74HC123` optional pulse stretcher / monostable
-- `1x 74LVC245` optional bus output buffer
+- `1x 74LS123` optional pulse stretcher / monostable
+- `1x 74LS245` optional bus output buffer
 - `1x` `5 V -> 3.3 V` regulator if MCU is `3.3 V`
 - trim pot for comparator threshold during bring-up
 - test points for all `SCAN` and `KS` lines

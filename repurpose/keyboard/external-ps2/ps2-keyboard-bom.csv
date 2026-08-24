@@ -1,6 +1,7 @@
 item_id,category,qty,reference,part,package_footprint,preferred_example,function,required_for_first_build,notes
 PS2-001,External keyboard,1,J_PS2,PS/2 keyboard connector,Mini-DIN-6 right-angle through-hole,TE Connectivity 5749180-1,External keyboard connection in native 5 V environment,no,"Preferred connector for internal board mounting; may also be implemented as a short pigtail"
 PS2-002,External keyboard,2,R_PS2_PULLUP,4.7k pull-up resistors,Axial 1/4W,4.7k 1/4W resistor,Pulls PS/2 clock and data high,no,"One each for CLK and DATA; 2.2k to 10k is usually workable"
-PS2-003,External keyboard,1,D_PS2_ESD,ESD protection array,THT or small adapter,Low-capacitance TVS array,Protects external PS/2 clock and data lines,no,Strongly recommended for user-accessible connector
-PS2-004,External keyboard,1,J_MODE,Mode-select jumper or switch,0.1-inch header or toggle,2-pin or 3-pin strap header,Selects HP native vs PS/2 input mode,no,Useful during bring-up even if final choice is done in firmware
-PS2-005,External accessory,1,CONV_USB_PS2,Active USB-to-PS/2 converter,External accessory,Commercial active converter,Allows modern USB keyboards to be used through the PS/2 path,no,"External accessory, not mounted on the replacement board"
+PS2-003,External keyboard,2,R_PS2_SERIES,PS/2 line series resistors,Axial 1/4W,330 ohm 1/4W resistor,Limits transient and fault current on PS/2 clock and data,no,"One each for CLK and DATA; preferred simple protection for rev 1"
+PS2-004,External keyboard,4,D_PS2_CLAMP,Optional PS/2 clamp diodes,DO-35,1N4148,Optional clamp network from PS/2 lines to +5V and GND,no,"Optional for later protection; rev 1 may omit"
+PS2-005,External keyboard,1,J_MODE,Mode-select jumper or switch,0.1-inch header or toggle,Harwin M20-9994045 cut to 1x3 plus shunt,Selects HP native vs PS/2 input mode,no,Useful during bring-up even if final choice is done in firmware
+PS2-006,External accessory,1,CONV_USB_PS2,Active USB-to-PS/2 converter,External accessory,Commercial active converter,Allows modern USB keyboards to be used through the PS/2 path,no,"External accessory, not mounted on the replacement board"

@@ -3,14 +3,14 @@ MECH-001,Mechanical,1,PCB/Card,100-pin edge-compatible wire-wrap or vector card,
 MECH-002,Mechanical,1,Edge fingers,100-pin card-edge finger pattern,Custom card edge,Donor board or fabricated fingers,Electrical connection to A1 XA5 slot,yes,"Critical mechanical constraint"
 MECH-003,Mechanical,4,Standoffs,Card support standoffs,Hardware,Generic nylon or metal standoffs,Support free end of card,no,Recommended if card is heavy or repeatedly inserted
 MECH-004,Mechanical,1,Bench interface,Extender or sacrificial slot setup,Fixture,Homemade or salvaged bench adapter,Safer bench bring-up,no,Helpful but not required
-CTRL-001,Controller,1,U1,ATmega328P-PU,DIP-28,Microchip ATmega328P-PU,Main MCU for scan generation and key decoding,yes,Chosen for through-hole friendliness
+CTRL-001,Controller,1,U1,ATmega328P-PU,DIP-28,Microchip ATMEGA328P-PU,Main MCU for scan generation and key decoding,yes,Chosen for through-hole friendliness; current basket part is ATMEGA328P-PU
 CTRL-002,Controller,1,U1 socket,28-pin wire-wrap machine-pin socket,DIP-28 socket,Wire-wrap DIP socket,Socket for MCU,yes,Strongly recommended
 CTRL-003,Controller,1,Y1,16 MHz crystal or resonator,HC49/U THT or 3-pin resonator,16 MHz crystal or resonator,Stable timing source,no,Internal oscillator acceptable for earliest bring-up
 CTRL-004,Controller,2,Cxtal,22 pF capacitors,Ceramic radial/disc,22 pF ceramic,Crystal load caps if crystal used,no,Only with crystal
 CTRL-005,Controller,1,SW_RESET,Reset pushbutton,THT tact switch,6 mm tact switch,Manual reset for firmware work,yes,Simple convenience item
 CTRL-006,Controller,1,R_RESET,10k resistor,Axial 1/4W,10k 1/4W pull-up,Holds RESET inactive,yes,
-CTRL-007,Controller,1,J_ISP,AVR ISP header,2x3 0.1-inch header,Generic header,Firmware programming and recovery,yes,
-CTRL-008,Controller,1,J_UART,UART/debug header,1x4 or 1x6 0.1-inch header,Generic header,Serial debug output,yes,Can be larger if you want extra signals
+CTRL-007,Controller,1,J_ISP,AVR ISP header,2x3 0.1-inch header,Harwin M20-9994045 cut to length,Firmware programming and recovery,yes,
+CTRL-008,Controller,1,J_UART,UART/debug header,1x4 or 1x6 0.1-inch header,Harwin M20-9994045 cut to length,Serial debug output,yes,Can be larger if you want extra signals
 SCAN-001,Scan logic,1,U2,74LS138,DIP-16,74LS138 1-of-8 decoder,Row decode for SCAN A-C,yes,Use 74LS family only
 SCAN-002,Scan logic,1,U2 socket,16-pin wire-wrap socket,DIP-16 socket,Wire-wrap DIP socket,Socket for decoder,yes,
 SCAN-003,Scan logic,8,Q1-Q8,2N3904 or 2N2222A,TO-92,2N3904,Row driver/sink transistors,no,"Useful for fuller pulse-drive stage; can omit in absolute first revision"
@@ -56,8 +56,8 @@ PASS-015,Passives,10,C1U,1 uF capacitors,Radial electrolytic or film,1 uF capaci
 PASS-016,Passives,10,C10U,10 uF capacitors,Radial electrolytic,10 uF capacitor,Bulk and timing,yes,Assortment item
 PASS-017,Passives,10,C47U,47 uF capacitors,Radial electrolytic,47 uF capacitor,Bulk smoothing,yes,Assortment item
 DIO-001,Diodes,20,DGEN,1N4148,DO-35,1N4148,General-purpose signal and clamp diodes,yes,"Cheap, versatile, and likely to be used liberally"
-DBG-001,Headers,1,J_DBG_SERIAL,Serial/debug header,0.1-inch THT header,1x4 or 1x6 header,Bring-up and firmware logging,yes,
-DBG-002,Headers,1,J_DBG_LOGIC,Logic observation header,0.1-inch THT header,1x10 or similar header,Expose SCAN and KS signals,yes,Can also be implemented as individual test posts
+DBG-001,Headers,1,J_DBG_SERIAL,Serial/debug header,0.1-inch THT header,Harwin M20-9994045 cut to length,Bring-up and firmware logging,yes,
+DBG-002,Headers,1,J_DBG_LOGIC,Logic observation header,0.1-inch THT header,Harwin M20-9994045 cut to length,Expose SCAN and KS signals,yes,Can also be implemented as individual test posts
 DBG-003,Headers,20,TP,Test posts or loops,THT loop post or turret post,Generic test posts,Scope and meter attachment points,yes,More is better on experimental card
 WW-001,Wire-wrap supplies,1,WIRE,30 AWG wire-wrap wire,N/A,Kynar 30 AWG wire-wrap wire,Primary wiring medium,yes,Use multiple colors if possible
 WW-002,Wire-wrap supplies,1,TOOL,Wire-wrap tool,N/A,Manual or powered wire-wrap tool,Proper wraps on square posts,yes,

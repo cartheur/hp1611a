@@ -148,6 +148,23 @@ Purpose:
 Typical supporting parts:
 - `2x 22 pF` capacitors if using a crystal
 
+Preferred combination:
+- `CTS ATS16B-E` crystal
+- `2x KEMET C315C220J3G5TA` load capacitors
+
+Why this is a good practical choice:
+- through-hole radial parts fit vector and wire-wrap work well
+- the crystal's `18 pF` load specification pairs comfortably with the common `22 pF` capacitor approach used on AVR boards
+- `C0G/NP0` dielectric matters more here than chasing tighter-than-needed capacitor tolerance
+
+Recommended firmware assumption:
+- external `16 MHz` clock
+- debug UART at `9600` baud
+
+Notes:
+- `9600` baud at `16 MHz` is a conservative and very forgiving choice for bring-up
+- the `5%` `C0G` load capacitors chosen here are well within the practical tolerance for this application
+
 Notes:
 - optional if you use the internal oscillator, but an external clock is better for repeatable scan timing
 
@@ -183,6 +200,9 @@ Why not choose it:
 Recommendation:
 - use the bare `ATmega328P-PU` if you want the cleanest wire-wrap build
 - use a module if you want the fastest proof-of-concept
+
+Current basket part:
+- `Microchip ATMEGA328P-PU`
 
 ## 3. Row Scan Generation
 

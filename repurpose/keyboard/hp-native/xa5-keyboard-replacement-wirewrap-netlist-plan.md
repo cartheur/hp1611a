@@ -19,10 +19,10 @@ It is written to match the recommended BOM in:
 ## Assumed Parts In This Plan
 
 - `U1`: `ATmega328P-PU`
-- `U2`: `74HCT138` row decoder
+- `U2`: `74LS138` row decoder
 - `U3`: `LM339AN` comparator bank A
 - `U4`: `LM339AN` comparator bank B
-- `U5`: `74HCT14` Schmitt inverter / logic cleanup
+- `U5`: `74LS14` Schmitt inverter / logic cleanup
 - `Q1-Q8`: `2N3904` row driver transistors
 
 This plan also assumes:
@@ -111,6 +111,21 @@ If external crystal is used:
 | crystal pin 2 | `U1 XTAL2` |
 | `22 pF` cap | `U1 XTAL1` to `GND_MAIN` |
 | `22 pF` cap | `U1 XTAL2` to `GND_MAIN` |
+
+Recommended crystal/load-cap combination:
+
+- `CTS ATS16B-E`
+- `2x KEMET C315C220J3G5TA`
+
+Recommended firmware assumption:
+
+- configure the AVR for external `16 MHz` crystal operation for the stable build
+- use `9600` baud for initial UART debug output
+
+Why this is the preferred bring-up choice:
+
+- `9600` baud at `16 MHz` gives generous timing margin
+- the selected `22 pF` `C0G` capacitors are a solid practical fit for the chosen crystal and board style
 
 ### Programming header
 
@@ -241,9 +256,9 @@ Notes:
 
 ## Section 6: Optional Local Row Decoder Wiring
 
-If you want the card to include an explicit `74HCT138` row decode stage for local monitoring or future pulse-driver shaping, wire it like this:
+If you want the card to include an explicit `74LS138` row decode stage for local monitoring or future pulse-driver shaping, wire it like this:
 
-### U2 `74HCT138`
+### U2 `74LS138`
 
 | From | To |
 | --- | --- |
@@ -371,7 +386,7 @@ For each used comparator output:
 
 ## Section 9: Schmitt Cleanup Stage
 
-Use `U5 74HCT14` to turn comparator outputs into clean MCU-safe logic edges.
+Use `U5 74LS14` to turn comparator outputs into clean MCU-safe logic edges.
 
 ### Comparator outputs into U5
 
@@ -488,7 +503,7 @@ Populate:
 
 - comparator input section
 - threshold pot
-- `74HCT14`
+- `74LS14`
 
 Verify:
 
@@ -530,7 +545,7 @@ If you want the absolute minimal working netlist summary, it is this:
 - `XA5-1,2 -> +5V_LOGIC`
 - several `XA5` grounds -> `GND_MAIN`
 - `U1 PD2/PD3/PD4/PD5 -> XA5-14/15/16/13` through series resistors
-- `XA5-3/4/5/6/7/8 -> protection resistors -> LM339 comparators -> 74HCT14 -> U1 PC0..PC5`
+- `XA5-3/4/5/6/7/8 -> protection resistors -> LM339 comparators -> 74LS14 -> U1 PC0..PC5`
 - `U1` programmed to scan rows and decode sensed columns
 
 That is the cleanest first wire-wrap implementation.

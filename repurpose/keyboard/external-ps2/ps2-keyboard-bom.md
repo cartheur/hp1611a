@@ -43,16 +43,38 @@ Notes:
 - `2.2k` to `10k` is usually workable
 - `4.7k` is a good starting value
 
-### `1x` `ESD` protection network
+### `2x` series resistors for `PS/2` lines
 
-Examples:
+Suggested value:
 
-- dual-line low-capacitance `TVS` array
-- small discrete clamp network if easier to build
+- `330 ohm`
 
 Purpose:
 
-- protects the user-accessible connector and MCU inputs
+- limit transient and fault current into the MCU-side input path
+- provide a simple and wire-wrap-friendly first level of protection
+
+Recommendation:
+
+- place one resistor in series with `PS/2 CLK`
+- place one resistor in series with `PS/2 DATA`
+- for rev 1, this simple series-resistor approach is preferred over an SMT ESD array
+
+### `4x` optional clamp diodes
+
+Suggested part:
+
+- `1N4148`
+
+Purpose:
+
+- optional discrete clamp network from `CLK` and `DATA` to `+5 V` and `GND`
+
+Notes:
+
+- this is optional for the first build
+- if the `PS/2` wiring remains short and internal, rev 1 can omit the clamp network entirely
+- if later protection is desired, this is easier to integrate on vector board than an SMT TVS array
 
 ### `1x` mode-select jumper or switch
 
