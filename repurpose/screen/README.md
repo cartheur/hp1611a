@@ -99,6 +99,7 @@ Candidate input types:
 - toggle switches
 - pushbuttons
 - rotary encoder with push
+- directional switch stick or joystick
 - potentiometers
 - thumbwheel or BCD switches if exact numeric entry matters
 - mode selector switch
@@ -110,6 +111,16 @@ The exact mix should follow the variable types:
 - continuously adjustable values want pots or encoder-driven numeric entry
 - event injection wants dedicated momentary controls
 - operating mode wants a distinct selector rather than a buried menu
+
+### First-pass control decisions
+
+To keep the first front-panel build moving with the current basket and inventory:
+
+- use a section of the existing `8-position` DIP-switch stock as `MODE_SEL`
+- use the `J1-00105` precision switch stick as a momentary directional environmental-feedback input
+- keep the optional rotary encoder out of rev `1` unless the firmware workflow proves it is needed
+
+This makes the control surface more concrete without adding another purchasing round.
 
 ## Slider Bank Direction
 
@@ -220,6 +231,8 @@ Preferred composition:
 - a field of labeled LEDs
 - a few dedicated action buttons
 
+For the current first build, this strip should be populated rather than deferred.
+
 Recommended semantic split:
 
 - left side: operator sets the world
@@ -280,6 +293,16 @@ Good candidate classes:
 - character LCD with `HD44780`-compatible parallel or `I2C` backpack interface
 - optionally transflective or high-contrast modules if ambient readability matters
 
+For the current first build, the selected displays are:
+
+- left main display: `204G BC BW`
+- right Rodney strip: `NHD-0116GZ-FSW-GBW`
+
+This is a mechanical decision as much as an electrical one:
+
+- the `204G BC BW` `98 x 60 mm` class module is a safer fit for the recorded left-side aperture envelope
+- the wider `NHD-0440AZ-FL-YBW` should not be treated as a confirmed fit without a dedicated physical template check
+
 Selection criteria:
 
 - simple interface
@@ -309,6 +332,15 @@ Typical needs:
 - connector and service access
 - optional `I2C` backpack if it reduces wiring cleanly
 
+First-pass implementation decisions:
+
+- do not wait for a separate IDC ecosystem just to wire the LCD
+- prefer the on-hand `28 AWG` `20-pin` flat ribbon for the main LCD and strip harnesses
+- use a cut-to-length `M20-9994045` breakout or direct soldered termination at the controller or display ends
+- use individual series resistors and direct MCU LED drive for the Rodney annunciators on the first pass
+- add transistor assist only if the LED current budget or brightness tests show a real need
+- include a printed right-side strip bracket in the first mechanical pass
+
 If an `I2C` backpack is used:
 
 - check voltage compatibility
@@ -335,6 +367,12 @@ Examples:
 | timed event | pushbutton or mode plus button | monostable or firmware-timed pulse |
 | count or rate | encoder or thumbwheel | counter preload, divided clock, or burst generator |
 | external status byte | selector plus confirm | latched digital outputs or conservative serial byte stream |
+
+For optional serial-style output in the current parts set:
+
+- use `SN74HCT125N` for the `3.3 V` MCU `TX` to `5 V TTL` up-shift
+- use a `1 kohm` over `2 kohm` resistor divider for `5 V TTL` back into the `3.3 V` MCU `RX`
+- do not treat this as `RS-232`; it is only a conservative TTL-style serial path
 
 ## `Arduino Nano 33 IoT` Role
 
@@ -372,6 +410,16 @@ The mechanical priorities changed with the display choice.
 - good place for lamps, small displays, legends, or lighter controls
 - avoid deep connector stacks
 
+### Fabrication stance
+
+For the first screen-oriented build:
+
+- treat the bezel or subpanel as a `3D`-printed part
+- treat the LCD support bracket as a `3D`-printed part
+- treat panel hardware as ordinary bench screws spacers nuts and anti-rotation washers unless geometry proves otherwise
+
+That means these are fabrication and assembly tasks, not blockers that require special parts sourcing.
+
 ## Bezel And Facade Strategy
 
 The project no longer needs to pretend both apertures are display windows.
@@ -388,7 +436,7 @@ So the facade strategy should be:
 If selecting parts today for planning rather than immediate full build, the preferred package should be recorded as:
 
 1. `Arduino Nano 33 IoT` as the panel and instrument controller
-2. one small character LCD as the only planned display
+2. `204G BC BW` as the left main display and `NHD-0116GZ-FSW-GBW` as the right Rodney strip
 3. physical controls for environmental-variable creation
 4. simple target-facing output hardware
 5. custom mounting and masking that treats the front apertures as general instrument-panel area
@@ -415,4 +463,14 @@ Build the first-pass hardware-trigger map with:
 - calibration need
 - display readback text
 
-Then choose the smallest character LCD that still makes the readback usable.
+Include one column for:
+
+- joystick or directional-feedback behavior if a variable benefits from momentary operator nudging
+
+If a variable map calls for serial-style output, record:
+
+- voltage domain
+- transmit-only versus bidirectional use
+- whether the optional `SN74HCT125N` plus divider path is actually needed in rev `1`
+
+Then wire and mount the selected displays rather than continuing the display-selection loop unless new physical measurements contradict the current fit assumptions.
