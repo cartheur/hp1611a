@@ -21,7 +21,7 @@ The updated basket and the new inventory list materially improve coverage.
 Broadly:
 
 - the screen repurpose path is now very well supported
-- the keyboard repurpose path is still not complete, but several previous electronics gaps are now closed by inventory
+- the keyboard repurpose path is still not fully implemented, but the open items are now mostly fabrication, wiring, and bench-validation tasks rather than special-part blockers
 - the largest remaining gaps are mechanical and integration items, not core logic parts
 
 ## Newly Improved Since The Prior Check
@@ -110,17 +110,19 @@ These items are covered in principle, but still need implementation choices or b
 
 There are no obvious remaining special-part blockers for the first screen-oriented build.
 
+Everything still listed here is now an implementation task, not a distinct procurement gap.
+
 The remaining screen work is now mostly:
 
 - finalizing the DIP-switch bit allocation for `MODE_SEL`
 - mapping the joystick behavior for environmental feedback
 - printing the bezel, LCD bracket, and right-side strip bracket
 - selecting the exact bench screws spacers and nuts for panel assembly
-- confirming the clean `5 V` power path during bench integration
+- confirming the clean `5 V` power path during bench integration with the salvaged dual-supply plan
 
 ## Still Missing For Keyboard Work
 
-The first-build native keyboard path still lacks several important nontrivial items:
+The first-build native keyboard path still has several important nontrivial implementation tasks:
 
 - the `100-pin` card-edge carrier and matching edge-finger geometry
 - reset switch hardware
@@ -135,4 +137,6 @@ Optional or later-stage keyboard items can still vary by build approach, includi
 
 If the goal is the screen repurpose build, the updated basket plus the new inventory list now support the mechanically safer two-display plan: `204G BC BW` on the left and `NHD-0116GZ-FSW-GBW` on the right.
 
-If the goal is the native keyboard replacement build, the combined picture is better than before because the logic, resistor, LED, Nano, wire-wrap-stock, and now `74LS14` coverage are much stronger. The remaining risk is now concentrated in mechanics, packaging, and a few bench-setup details rather than in basic parts availability.
+If the goal is the native keyboard replacement build, the combined picture is better than before because the logic, resistor, LED, Nano, wire-wrap-stock, and now `74LS14` coverage are much stronger. The remaining risk is now concentrated in mechanics, packaging, fabrication, and bench-setup details rather than in basic parts availability.
+
+For the screen-oriented build specifically, anything still "missing" is now best understood as implementation work: control mapping, harnessing, printed parts, bench hardware selection, and power validation.
