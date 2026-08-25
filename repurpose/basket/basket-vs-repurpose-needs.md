@@ -95,12 +95,16 @@ The keyboard repurpose path now has stronger electronics support than before:
 
 ## Partial Coverage
 
-These needs are at least partly addressed, but still deserve an explicit bench or design decision.
+These items are covered in principle, but still need implementation choices or bench confirmation.
 
-- The keyboard wire-wrap socket story is much better, but it would still help to map exact on-hand quantities to the specific `14-pin`, `16-pin`, `20-pin`, and `28-pin` BOM callouts.
-- The keyboard pull-up and bias resistor values now exist in inventory, but they are still inventory-backed rather than basket-backed.
-- The display-side bezel and bracket are now best treated as fabrication tasks, so the remaining work is mostly CAD and fit verification rather than procurement.
-- The display harness is no longer a special-parts concern if the on-hand `20-pin` flat ribbon is used for the LCD and strip runs.
+- Keyboard socket coverage is now mapped and appears sufficient:
+- `DIP-14`: need `3` first-build sockets (`2x LM339AN`, `1x 74LS14`); inventory has `30x D0814-42`
+- `DIP-16`: need `1` first-build socket (`74LS138`), plus `1` more if the optional `74LS123` monostable is populated; inventory has `36x D0816-42`
+- `DIP-20`: need `0` for the strict first build, or `2` if the optional `74LS245` plus `74LS373/574` bus-output path is populated; inventory has `5x 123-93-320-41-001000`
+- `DIP-28`: need `1` first-build socket (`ATmega328P`); inventory has `8x 123-47-628-41-001000`, and the basket adds `10x` more of the same family
+- Keyboard resistor coverage is real, but some values are inventory-backed rather than basket-backed.
+- Display mechanics are covered as fabrication tasks, so bezel and bracket work still needs CAD and fit verification.
+- Display harness coverage is effectively solved with the on-hand `20-pin` ribbon and header stock, but final routing and termination choices still need to be fixed during build-up.
 
 ## Still Missing For Screen Work
 
